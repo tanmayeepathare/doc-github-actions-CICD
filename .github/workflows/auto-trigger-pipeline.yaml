@@ -1,0 +1,12 @@
+name: auto-trigger pipeline on main branch push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+   auto-trigger:
+    runs-on: ubuntu-22.04
+    steps:
+      - run: echo "this pipeline is triggered automatically on main branch push"
