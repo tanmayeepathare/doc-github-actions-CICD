@@ -1,0 +1,17 @@
+
+name: GitHub Actions Variables
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  variables-demo:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Create and print variable
+        env:
+          STUDENT: Tanmayee
+        run: echo "Hello $STUDENT"
