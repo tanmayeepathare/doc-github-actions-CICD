@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  variables-demo:
+  variables-demo:o;
     runs-on: ubuntu-22.04
 
     steps:

@@ -1,0 +1,56 @@
+
+name: GitHub Actions Variable Scope
+
+on:
+  workflow_dispatch:
+
+env:
+  WORKFLOW_VAR: I_AM_WORKFLOW_SCOPED
+
+jobs:
+  job1:
+    runs-on: ubuntu-22.04
+    env:
+      JOB1_VAR: I_AM_JOB1_SCOPED
+
+    steps:
+      - name: Inspect scopes - Job 1 Step 1
+        env:
+          STEP1_VAR: I_AM_STEP1_SCOPED
+        run: |
+          echo "WORKFLOW_VAR: $WORKFLOW_VAR"
+          echo "JOB1_VAR: $JOB1_VAR"
+          echo "STEP1_VAR: $STEP1_VAR"
+
+      - name: Inspect scopes - Job 1 Step 2
+        run: |
+          echo "WORKFLOW_VAR: $WORKFLOW_VAR"
+          echo "JOB1_VAR: $JOB1_VAR"
+          echo "STEP1_VAR: ${STEP1_VAR:-UNSET}"
+
+  job2:
+    runs-on: ubuntu-22.04
+    env:
+      JOB2_VAR: I_AM_JOB2_SCOPED
+
+    steps:
+      - name: Inspect scopes - Job 2 Step 1
+        run: |
+          echo "WORKFLOW_VAR: $WORKFLOW_VAR"
+          echo "JOB1_VAR: ${JOB1_VAR:-UNSET}"
+          echo "JOB2_VAR: $JOB2_VAR"
+          echo "STEP1_VAR: ${STEP1_VAR:-UNSET}"
+
+job3:
+    runs-on: ubuntu-latest
+    needs: job1
+    env:
+      JOB3_VAR: I_AM_JOB3_SCOPED
+
+    steps:
+      - name: Inspect scopes - Job 3 Step 1
+        run: |
+          echo "WORKFLOW_VAR: $WORKFLOW_VAR"
+          echo "JOB1_VAR: ${JOB1_VAR:-UNSET}"
+          echo "JOB3_VAR: $JOB3_VAR"
+          echo "STEP1_VAR: ${STEP1_VAR:-UNSET}"
